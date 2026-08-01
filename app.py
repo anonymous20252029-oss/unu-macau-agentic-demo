@@ -43,10 +43,11 @@ with col_chart:
         line=dict(color='#e74c3c', width=3, dash='dash'), marker=dict(size=8, symbol='square')
     ))
 
+    # ĐÃ SỬA LỖI PLOTLY Ở ĐÂY: Sử dụng cấu trúc từ điển lồng nhau cho trục tọa độ
     fig.update_layout(
-        xaxis=dict(title="Workflow Step", tickmode='linear', range=[0.8, 4.2]),
-        yaxis=dict(title="Tokens Consumed", titlefont=dict(color="#2c3e50"), tickfont=dict(color="#2c3e50"), range=[1000, 2300]),
-        yaxis2=dict(title="Seconds", titlefont=dict(color="#e74c3c"), tickfont=dict(color="#e74c3c"), anchor="x", overlaying="y", side="right", range=[0, 8]),
+        xaxis=dict(title=dict(text="Workflow Step"), tickmode='linear', range=[0.8, 4.2]),
+        yaxis=dict(title=dict(text="Tokens Consumed", font=dict(color="#2c3e50")), tickfont=dict(color="#2c3e50"), range=[1000, 2300]),
+        yaxis2=dict(title=dict(text="Seconds", font=dict(color="#e74c3c")), tickfont=dict(color="#e74c3c"), anchor="x", overlaying="y", side="right", range=[0, 8]),
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5), # Legend nằm ngang ở trên
         height=380, # Ép chiều cao cố định
         margin=dict(l=0, r=0, t=10, b=0)

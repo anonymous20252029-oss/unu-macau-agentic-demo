@@ -6,7 +6,7 @@ import plotly.graph_objects as go
 st.set_page_config(page_title="UNU Macau Demo", layout="wide", initial_sidebar_state="collapsed")
 st.markdown("""
     <style>
-        .block-container { padding-top: 1rem; padding-bottom: 0rem; }
+        .block-container { padding-top: 3rem; padding-bottom: 0rem; }
         h3 { margin-bottom: 0rem; }
     </style>
 """, unsafe_allow_html=True)

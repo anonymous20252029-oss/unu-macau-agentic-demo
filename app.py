@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 
-# 1. Cấu hình trang & Ép CSS để loại bỏ khoảng trắng thừa 
+# 1. Cấu hình trang & Ép CSS
 st.set_page_config(page_title="UNU Macau Demo", layout="wide", initial_sidebar_state="collapsed")
 st.markdown("""
     <style>
@@ -12,7 +12,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.markdown("### 🌐 UNU Macau 2026: Shared Capacity Command Center")
-st.caption("💡 **The Concept:** Autonomous AI often gets stuck in endless error loops (wasting money/tokens). This demo shows a system that safely pauses the AI upon error, allowing human correction at **zero additional compute cost**.")
+st.caption("💡 **The Concept:** Autonomous AI often gets stuck in endless error loops. This demo shows a system that safely pauses the AI upon error, allowing human correction at **zero additional compute cost**.")
 
 # 2. Khởi tạo Trạng thái Phiên (Session State)
 if 'step' not in st.session_state:
@@ -24,7 +24,7 @@ if 'step' not in st.session_state:
 
 df = pd.DataFrame(st.session_state.telemetry)
 
-# 3. Bố cục 2 cột gọn gàng
+# 3. Bố cục 2 cột
 col_chart, col_control = st.columns([1.5, 1], gap="large")
 
 with col_chart:
@@ -56,13 +56,18 @@ with col_chart:
 
     st.plotly_chart(fig, use_container_width=True)
     
-    # --- LOG DATA CHUYỂN SANG DƯỚI BIỂU ĐỒ TẠI ĐÂY ---
+    # --- LOG DATA ---
     with st.expander("🔍 View Raw Event Logs"):
         st.dataframe(df[['step', 'layer', 'status', 'cum_tokens', 'cum_time_sec']], use_container_width=True, hide_index=True)
 
 with col_control:
-    # Hộp KPI nhỏ gọn
-    st.markdown("**System Diagnostics**")
+    # --- SCENARIO CONTEXT (KỊCH BẢN ĐỘNG) ---
+    if st.session_state.step == 2:
+        st.warning("**Current Scenario: Database Migration Task**\nThe autonomous agent is attempting to connect to the enterprise database. However, it hallucinated an unencrypted test port. The system's Deterministic Harness intercepted this action.")
+    else:
+        st.info("**Current Scenario: Workflow Resumed**\nThe human operator successfully injected the secure port parameter. The agent utilized the updated context to finalize the migration securely.")
+
+    # --- KPI DIAGNOSTICS ---
     kpi1, kpi2, kpi3 = st.columns(3)
     kpi1.metric("Total Tokens", int(df['cum_tokens'].max()), delta="0 (While Paused)" if st.session_state.step >= 3 else None, delta_color="inverse")
     kpi2.metric("Total Time", f"{df['cum_time_sec'].max():.2f} s")
@@ -70,7 +75,7 @@ with col_control:
     
     st.divider()
 
-    # Khu vực Staging (Tương tác)
+    # --- STAGING AREA ---
     st.markdown("**Interactive Staging Area**")
     
     if st.session_state.step == 2:

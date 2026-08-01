@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 
-# 1. Cấu hình trang & Ép CSS
+# 1. Cấu hình trang & Ép CSS để loại bỏ khoảng trắng thừa
 st.set_page_config(page_title="UNU Macau Demo", layout="wide", initial_sidebar_state="collapsed")
 st.markdown("""
     <style>
@@ -57,21 +57,21 @@ with col_chart:
     st.plotly_chart(fig, use_container_width=True)
     
     # --- LOG DATA ---
-    with st.expander("🔍 View Raw Event Logs"):
+    with st.expander("🔍 View Raw Event Logs (CHAP Protocol Auditing)"):
         st.dataframe(df[['step', 'layer', 'status', 'cum_tokens', 'cum_time_sec']], use_container_width=True, hide_index=True)
 
 with col_control:
-    # --- SCENARIO CONTEXT (KỊCH BẢN ĐỘNG) ---
+    # --- SCENARIO CONTEXT (KỊCH BẢN ĐỘNG UNU MACAU) ---
     if st.session_state.step == 2:
-        st.warning("**Current Scenario: Database Migration Task**\nThe autonomous agent is attempting to connect to the enterprise database. However, it hallucinated an unencrypted test port. The system's Deterministic Harness intercepted this action.")
+        st.warning("**Current Scenario: Cross-Border Data Compliance**\nThe autonomous agent is attempting to sync sensitive data across regional servers. However, it hallucinated an unencrypted port (`9999`), violating international compliance policies. The Work Harness intercepted this action.")
     else:
-        st.info("**Current Scenario: Workflow Resumed**\nThe human operator successfully injected the secure port parameter. The agent utilized the updated context to finalize the migration securely.")
+        st.info("**Current Scenario: Workflow Resumed**\nThe human operator successfully injected the secure, policy-compliant port parameter. The agent utilized the updated context to finalize the cross-border transfer securely.")
 
     # --- KPI DIAGNOSTICS ---
     kpi1, kpi2, kpi3 = st.columns(3)
     kpi1.metric("Total Tokens", int(df['cum_tokens'].max()), delta="0 (While Paused)" if st.session_state.step >= 3 else None, delta_color="inverse")
     kpi2.metric("Total Time", f"{df['cum_time_sec'].max():.2f} s")
-    kpi3.metric("Status", df['status'].iloc[-1], delta="Action Req." if st.session_state.step == 2 else "Secure", delta_color="normal" if st.session_state.step == 4 else "inverse")
+    kpi3.metric("Status", df['status'].iloc[-1], delta="Policy Violation" if st.session_state.step == 2 else "Compliant", delta_color="normal" if st.session_state.step == 4 else "inverse")
     
     st.divider()
 
@@ -82,12 +82,12 @@ with col_control:
         st.error("🚨 **AI Error:** Agent attempted to use unauthorized Port `9999`.")
         
         with st.form("intervention_form", border=True):
-            new_port = st.number_input("Override Gateway Port:", value=9999, step=1)
+            new_port = st.number_input("Override Gateway Port (Hint: Secure port is 5432):", value=9999, step=1)
             submit_override = st.form_submit_button("Approve & Resume Workflow", type="primary", use_container_width=True)
             
             if submit_override:
                 if new_port == 9999:
-                    st.warning("Please enter the correct secure port (5432)!")
+                    st.warning("Please enter the correct secure port (5432) to comply with data policies!")
                 else:
                     st.session_state.telemetry.extend([
                         {"step": 3, "layer": "Human UI", "status": "Overridden", "cum_tokens": 1850, "cum_time_sec": 6.85},
@@ -97,7 +97,7 @@ with col_control:
                     st.rerun()
                     
     elif st.session_state.step == 4:
-        st.success("✅ **Success:** System safely connected via Port `5432`.")
+        st.success("✅ **Success:** System safely connected via encrypted Port `5432`.")
         if st.button("🔄 Reset Simulation", use_container_width=True):
             st.session_state.step = 2
             st.session_state.telemetry = st.session_state.telemetry[:2]

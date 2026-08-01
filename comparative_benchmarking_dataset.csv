@@ -1,0 +1,9 @@
+step,dataset,layer,tokens,latency_ms,status,cum_tokens,cum_time_sec
+1,Static Local,Agent Layer (Non-Det),1100,1200,Loop Trap,1100,1.2
+2,Static Local,Sensor Layer (Det),250,300,Blocked,1350,1.5
+3,Static Local,Human UI Layer,0,5000,Overridden,1350,6.5
+4,Static Local,Sensor Layer (Det),250,120,Resolved,1600,6.62
+1,Live Remote,Agent Layer (Non-Det),1600,1550,Loop Trap,1600,1.55
+2,Live Remote,Sensor Layer (Det),250,300,Blocked,1850,1.85
+3,Live Remote,Human UI Layer,0,5000,Overridden,1850,6.85
+4,Live Remote,Sensor Layer (Det),250,120,Resolved,2100,6.97

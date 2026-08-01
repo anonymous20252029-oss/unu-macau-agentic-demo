@@ -1,0 +1,6 @@
+step,node,action,status,token_cost,latency_ms,cumulative_tokens,cumulative_latency_sec
+1,agent_reasoning,propose_code,pending_verification,1200,1450,1200,1.45
+2,execute_tool,run_sandbox_code,failed,200,300,1400,1.75
+3,agent_reasoning,propose_code,pending_verification,1200,1450,2600,3.2
+4,human_staging_layer,human_override_parameter,override_approved,0,5000,2600,8.2
+5,execute_tool,run_sandbox_code,success,200,150,2800,8.35

@@ -1,0 +1,6 @@
+step,node,action,status,token_cost,latency_ms,cum_tokens,cum_latency_sec
+1,agent_reasoning,propose_execution_plan,pending_approval,1250,1420,1250,1.42
+2,execute_tool,invoke_mcp_tool,runtime_failed,250,310,1500,1.73
+3,agent_reasoning,propose_execution_plan,pending_approval,1250,1420,2750,3.15
+4,human_staging_layer,parameter_override,human_approved,0,4500,2750,7.65
+5,execute_tool,invoke_mcp_tool,runtime_success,250,140,3000,7.79

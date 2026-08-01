@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 
-# 1. Cấu hình trang & Ép CSS (Đã tăng padding-top lên 3rem để không bị lẹm chữ)
+# 1. Cấu hình trang & Ép CSS để loại bỏ khoảng trắng thừa 
 st.set_page_config(page_title="UNU Macau Demo", layout="wide", initial_sidebar_state="collapsed")
 st.markdown("""
     <style>
@@ -24,11 +24,11 @@ if 'step' not in st.session_state:
 
 df = pd.DataFrame(st.session_state.telemetry)
 
-# 3. Bố cục 2 cột gọn gàng (Biểu đồ bên trái, Điều khiển bên phải)
+# 3. Bố cục 2 cột gọn gàng
 col_chart, col_control = st.columns([1.5, 1], gap="large")
 
 with col_chart:
-    # Biểu đồ
+    # --- BIỂU ĐỒ ---
     fig = go.Figure()
 
     fig.add_trace(go.Scatter(
@@ -46,7 +46,7 @@ with col_chart:
         yaxis=dict(title=dict(text="Tokens Consumed", font=dict(color="#2c3e50")), tickfont=dict(color="#2c3e50"), range=[1000, 2300]),
         yaxis2=dict(title=dict(text="Seconds", font=dict(color="#e74c3c")), tickfont=dict(color="#e74c3c"), anchor="x", overlaying="y", side="right", range=[0, 8]),
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5), 
-        height=400, 
+        height=380, 
         margin=dict(l=0, r=0, t=10, b=0)
     )
 
@@ -55,6 +55,10 @@ with col_chart:
         fig.add_annotation(x=3.05, y=0.5, xref="x", yref="paper", text="Human Override", showarrow=False, textangle=-90, font=dict(color="gray"))
 
     st.plotly_chart(fig, use_container_width=True)
+    
+    # --- LOG DATA CHUYỂN SANG DƯỚI BIỂU ĐỒ TẠI ĐÂY ---
+    with st.expander("🔍 View Raw Event Logs"):
+        st.dataframe(df[['step', 'layer', 'status', 'cum_tokens', 'cum_time_sec']], use_container_width=True, hide_index=True)
 
 with col_control:
     # Hộp KPI nhỏ gọn
@@ -93,9 +97,3 @@ with col_control:
             st.session_state.step = 2
             st.session_state.telemetry = st.session_state.telemetry[:2]
             st.rerun()
-            
-    st.write("") # Spacer
-    
-    # 4. Chuyển Log Data vào ngay dưới cùng của cột phải để lấp đầy không gian trống
-    with st.expander("🔍 View Raw Event Logs"):
-        st.dataframe(df[['step', 'layer', 'status', 'cum_tokens']], use_container_width=True, hide_index=True)

@@ -71,8 +71,11 @@ fig.add_trace(go.Scatter(
 # Configure Dual Axis and Interrupt Boundary
 fig.update_layout(
     xaxis=dict(title="Workflow Steps (Meso-Level)", tickmode='linear'),
-    yaxis=dict(title="Token Consumption (Counts)", titlefont=dict(color="#2c3e50"), tickfont=dict(color="#2c3e50")),
-    yaxis2=dict(title="Processing Latency (Seconds)", titlefont=dict(color="#e74c3c"), tickfont=dict(color="#e74c3c"), anchor="x", overlaying="y", side="right"),
+    
+    # SỬA Ở ĐÂY: Dùng title_text và title_font thay vì title và titlefont
+    yaxis=dict(title_text="Token Consumption (Counts)", title_font=dict(color="#2c3e50"), tickfont=dict(color="#2c3e50")),
+    yaxis2=dict(title_text="Processing Latency (Seconds)", title_font=dict(color="#e74c3c"), tickfont=dict(color="#e74c3c"), anchor="x", overlaying="y", side="right"),
+    
     legend=dict(x=0.01, y=0.99, bgcolor='rgba(255,255,255,0.8)'),
     shapes=[
         # Vertical Line indicating Human Intervention
